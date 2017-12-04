@@ -1,0 +1,61 @@
+/*************************
+*         General        *
+*************************/
+
+body {
+    padding-top: 100px;
+}
+
+/*************************
+*         Navbar         *
+*************************/
+
+nav {
+    background: linear-gradient(90deg, #0c8aff, #24a1ff);
+}
+
+.navbar-avatar img {
+    width: 40px;
+    border-radius: 5px;
+}
+
+.navbar-avatar {
+    display: inline;
+}
+
+/*************************
+*         UserController         *
+*************************/
+
+.profil-avatar {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.profil-nom, .profil-pseudo {
+    font-size: 26px;
+    line-height: 30px;
+}
+
+
+.profil-nom ~ .profil-pseudo {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 24px;
+    color: #666;
+}
+
+/*************************
+*        Dropdown        *
+*************************/
+
+.dropdown-item, .dropdown-header {
+    padding: .25rem 1rem;
+}
+
+.dropdown-item:hover {
+    background-color: #0c8aff;
+    color: white;
+}
