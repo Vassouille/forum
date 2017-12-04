@@ -1,0 +1,30 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col col-12">
+            <div class="jumbotron">
+                <h1 class="display-4">Félicitations, vous avez validé votre inscription !</h1>
+                <p class="lead">Vous pouvez désormais vous connecter. <a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a>
+                <hr class="my-4">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nom d'utilisateur</th>
+                        <th scope="col">Adresse email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}
+
