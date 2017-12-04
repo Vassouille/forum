@@ -75,6 +75,7 @@ layout:
     login: Connexion
     register: Inscription
     logged_in_as: 'Connecté en tant que %username%'
+    
 form:
     group_name: 'Nom du groupe'
     username: 'Nom d''utilisateur'
@@ -88,3 +89,5 @@ form:
     name: 'Nom'
     age: 'Âge'
     city: 'Ville'
+
+Captcha: 'Captcha'

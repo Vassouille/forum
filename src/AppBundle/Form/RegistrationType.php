@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +16,7 @@ class RegistrationType extends AbstractType
             ->add('name', null, array('label' => 'form.name'))
             ->add('age', null, array('label' => 'form.age'))
             ->add('city', null, array('label' => 'form.city'))
+            ->add('captcha', CaptchaType::class)
         ;
     }
 

@@ -75,3 +75,8 @@ fos_user:
             enabled: true
         form:
             type: AppBundle\Form\RegistrationType
+
+gregwar_captcha:
+    width: 200
+    height: 35
+    length: 6
