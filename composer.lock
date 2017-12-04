@@ -1486,16 +1486,16 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v5.1.2",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "28792a4e1a3237088ee1694098767833d079d56d"
+                "reference": "4fc5d5ba02eee8bb02cc00548dfc5a98f6151fe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/28792a4e1a3237088ee1694098767833d079d56d",
-                "reference": "28792a4e1a3237088ee1694098767833d079d56d",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/4fc5d5ba02eee8bb02cc00548dfc5a98f6151fe8",
+                "reference": "4fc5d5ba02eee8bb02cc00548dfc5a98f6151fe8",
                 "shasum": ""
             },
             "require": {
@@ -1551,7 +1551,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2017-12-01 00:43:37"
+            "time": "2017-11-30 14:53:48"
         },
         {
             "name": "sensiolabs/security-checker",
