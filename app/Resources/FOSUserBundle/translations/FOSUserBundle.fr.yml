@@ -11,6 +11,7 @@ group:
         deleted: 'Le groupe a été supprimé.'
 security:
     login:
+        email: 'Adresse email'
         username: 'Nom d''utilisateur'
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
@@ -75,7 +76,7 @@ layout:
     login: Connexion
     register: Inscription
     logged_in_as: 'Connecté en tant que %username%'
-    
+
 form:
     group_name: 'Nom du groupe'
     username: 'Nom d''utilisateur'
