@@ -1,13 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Forum{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" media="screen,projection">
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('home') }}">Forum</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('home') }}">Accueil <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item active dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    {{ app.user.username }}
+                                {% else %}
+                                    Non connecté
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    <h6 class="dropdown-header">{{ app.user.username }}</h6>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('fos_user_profile_show') }}">Profil</a>
+                                    <a class="dropdown-item" href="">Déconnexion</a>
+                                {% else %}
+                                    <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}">Inscription</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target=".bd-example-modal-lg">Connexion</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% block body %}
+        {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js') }}" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
