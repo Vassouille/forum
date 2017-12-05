@@ -10,7 +10,7 @@ body {
 *         Navbar         *
 *************************/
 
-nav {
+nav.navbar {
     background: linear-gradient(90deg, #0c8aff, #24a1ff);
 }
 
@@ -24,7 +24,7 @@ nav {
 }
 
 /*************************
-*         UserController         *
+*     UserController     *
 *************************/
 
 .profil-avatar {
@@ -58,4 +58,21 @@ nav {
 .dropdown-item:hover {
     background-color: #0c8aff;
     color: white;
+}
+
+/*************************
+*          Grid          *
+*************************/
+
+.row:not(:first-child) {
+    margin-top: 1rem;
+}
+
+/*************************
+*         Tables         *
+*************************/
+
+.table a {
+    font-size: 1.2rem;
+    text-decoration: none;
 }

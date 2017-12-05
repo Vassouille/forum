@@ -8,12 +8,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-class HomeController extends Controller
+class ListController extends Controller
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/list/{page}", name="list")
      */
-    public function helloAction(Request $request)
+    public function listAction(Request $request, $page)
     {
         $theme = new Theme();
         $em = $this->getDoctrine()->getManager();
@@ -33,13 +33,13 @@ class HomeController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        $themes = $em->getRepository(Theme::class)->findBy(array(), array('id' => 'desc'), 5);
+        $themes = $em->getRepository(Theme::class)->getList($page);
         $count = $em->getRepository(Theme::class)->countTheme();
 
         $max = (int)ceil($count[0][1]/5);
         $pagination = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if ($i <= $max) {
+        for ($i = ($page - 3); $i <= ($page + 3); $i++) {
+            if ($i > 0 && $i <= $max) {
                 array_push($pagination, $i);
             }
         }
@@ -47,7 +47,7 @@ class HomeController extends Controller
         return $this->render('list.html.twig', array(
             'form' => $form->createView(),
             'themes' => $themes,
-            'active' => 1,
+            'active' => $page,
             'pagination' => $pagination,
             'max' => $max
         ));
