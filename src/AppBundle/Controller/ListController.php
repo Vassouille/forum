@@ -33,11 +33,23 @@ class ListController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        $themes = $em->getRepository(Theme::class)->findBy(array(), array('id' => 'desc'), 5);
+        $themes = $em->getRepository(Theme::class)->getList($page);
+        $count = $em->getRepository(Theme::class)->countTheme();
+
+        $max = (int)ceil($count[0][1]/5);
+        $pagination = [];
+        for ($i = ($page - 3); $i <= ($page + 3); $i++) {
+            if ($i > 0 && $i <= $max) {
+                array_push($pagination, $i);
+            }
+        }
 
         return $this->render('list.html.twig', array(
             'form' => $form->createView(),
-            'themes' => $themes
+            'themes' => $themes,
+            'active' => $page,
+            'pagination' => $pagination,
+            'max' => $max
         ));
     }
 }
