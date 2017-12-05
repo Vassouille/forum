@@ -5,8 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * Theme
+ *
  * @ORM\Table(name="theme")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ThemeRepository")
  */
 class Theme
 {
@@ -23,6 +25,19 @@ class Theme
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $description;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -37,4 +52,21 @@ class Theme
     {
         $this->name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 }
+
