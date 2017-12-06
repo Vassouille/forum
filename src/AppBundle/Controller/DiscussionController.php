@@ -48,6 +48,12 @@ class DiscussionController extends Controller
                 $em->persist($discussion);
                 $em->flush();
 
+                $em->getRepository(Discussion::class)->updateTheme(
+                    $id,
+                    $user->getUsername,
+                    $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'))
+                );
+
                 return $this->redirectToRoute('theme', array('id' => $id));
             }
 

@@ -29,7 +29,7 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    function updateTheme($id) {
+    function updateTheme($id, $lastusername, $lastdate) {
         /*$this->createQueryBuilder('a')
             ->update('AppBundle:Theme', 't')
             ->set('t.lastusername', );*/
