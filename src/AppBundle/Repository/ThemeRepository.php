@@ -10,7 +10,6 @@ class ThemeRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
     function getList($page) {
         return $this->createQueryBuilder('t')
             ->setFirstResult($page*5-5)

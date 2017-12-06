@@ -79,8 +79,17 @@
                         {% if themes != [] %}
                             {% for theme in themes %}
                                 <tr>
-                                    <td><a href="{{ path('theme', {'id': theme.id}) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
-                                    <td></td>
+                                    <td><a href="{{ path('theme', {'id': theme.id }) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
+                                    <td>
+                                        {% if theme.lastdate != null %}
+                                            {{ theme.lastdate|date('d/m/Y à H:i') }}
+                                        {% else %}
+                                            Jamais
+                                        {% endif %}
+                                        {% if theme.lastusername != null %}
+                                            {{ theme.lastusername }}
+                                        {% endif %}
+                                    </td>
                                     <td></td>
                                 </tr>
                             {% endfor %}

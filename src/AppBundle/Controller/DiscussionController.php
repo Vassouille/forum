@@ -48,10 +48,12 @@ class DiscussionController extends Controller
                 $em->persist($discussion);
                 $em->flush();
 
+                $last = $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'));
+
                 $em->getRepository(Discussion::class)->updateTheme(
                     $id,
-                    $user->getUsername,
-                    $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'))
+                    $user->getUsername(),
+                    $last->getDate()
                 );
 
                 return $this->redirectToRoute('theme', array('id' => $id));
@@ -113,6 +115,14 @@ class DiscussionController extends Controller
                 $discussion = $form->getData();
                 $em->persist($discussion);
                 $em->flush();
+
+                $last = $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'));
+
+                $em->getRepository(Discussion::class)->updateTheme(
+                    $id,
+                    $user->getUsername(),
+                    $last->getDate()
+                );
 
                 return $this->redirectToRoute('theme', array('id' => $id));
             }
