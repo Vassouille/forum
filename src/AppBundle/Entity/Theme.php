@@ -30,6 +30,16 @@ class Theme
     private $description;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $lastusername;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastdate;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -67,6 +77,38 @@ class Theme
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastusername()
+    {
+        return $this->lastusername;
+    }
+
+    /**
+     * @param mixed $lastusername
+     */
+    public function setLastusername($lastusername)
+    {
+        $this->lastusername = $lastusername;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastdate()
+    {
+        return $this->lastdate;
+    }
+
+    /**
+     * @param mixed $lastdate
+     */
+    public function setLastdate($lastdate)
+    {
+        $this->lastdate = $lastdate;
     }
 }
 
