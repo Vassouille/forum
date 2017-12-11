@@ -30,7 +30,6 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
     }
 
     function updateTheme($id, $lastusername, $lastdate) {
-
         $this->getEntityManager()->createQueryBuilder()->update(Theme::class, 't')
             ->where('t.id = :id')
             ->setParameter('id', $id)
@@ -40,18 +39,5 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('ld', $lastdate)
             ->getQuery()
             ->execute();
-
-        /*$this->createQueryBuilder('a')
-            ->update(Theme::class, 't')
-            ->set('t.lastusername', '?1')
-            ->set('t.lastdate', '?2')
-            ->where('t.id', '?3')
-            ->setParameter(1, $lastusername)
-            ->setParameter(2, $lastdate)
-            ->setParameter(3, $id)
-            ->getQuery()
-            ->getResult();*/
-
-        /*$this->createQueryBuilder("UPDATE  SET lastusername = " . "$lastusername" . ", lastdate = " . "$lastdate" . " WHERE id = " . $id);*/
     }
 }

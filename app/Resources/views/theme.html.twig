@@ -2,12 +2,36 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>{{ theme.name }}</h1>
-                <p>{{ theme.description }}</p>
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Ajouter un thème
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un thème</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {{ form_start(form) }}
+                                <div class="modal-body">
+                                    {{ form_widget(form) }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="col">
                 {% set paginationvar %}
@@ -15,32 +39,32 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item {% if active == 1 %}disabled{% endif %}">
-                                    <a class="page-link" href="{{ path('theme_list', {'id': theme.id, 'page': 1}) }}" aria-label="Previous">
+                                    <a class="page-link" href="{{ path('list', {'page': 1}) }}" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                         <span class="sr-only">Previous</span>
                                     </a>
                                 </li>
                                 {% if active != 1 %}
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ path('theme_list', {'id': theme.id, 'page': active-1}) }}" aria-label="Previous">
+                                        <a class="page-link" href="{{ path('list', {'page': active-1}) }}" aria-label="Previous">
                                             <span aria-hidden="true">‹</span>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
                                 {% endif %}
                                 {% for page in pagination %}
-                                    <li class="page-item {% if page == active %}active{% endif %}"><a class="page-link" href="{{ path('theme_list', {'id': theme.id, 'page': page}) }}">{{ page }}</a></li>
+                                    <li class="page-item {% if page == active %}active{% endif %}"><a class="page-link" href="{{ path('list', {'page': page}) }}">{{ page }}</a></li>
                                 {% endfor %}
                                 {% if active != max %}
                                     <li class="page-item">
-                                        <a class="page-link" href="{{ path('theme_list', {'id': theme.id, 'page': active+1}) }}" aria-label="Previous">
+                                        <a class="page-link" href="{{ path('list', {'page': active+1}) }}" aria-label="Previous">
                                             <span aria-hidden="true">›</span>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
                                 {% endif %}
                                 <li class="page-item {% if active == max %}disabled{% endif %}">
-                                    <a class="page-link" href="{{ path('theme_list', {'id': theme.id, 'page': max}) }}" aria-label="Previous">
+                                    <a class="page-link" href="{{ path('list', {'page': max}) }}" aria-label="Previous">
                                         <span aria-hidden="true">»</span>
                                         <span class="sr-only">Previous</span>
                                     </a>
@@ -53,30 +77,30 @@
                 {{ paginationvar }}
                 <table class="table">
                     <tbody>
-                    {% if discussions != [] %}
-                        {% for discussion in discussions %}
-                            <tr>
-                                <td><p>Par <a href="#">{{ discussion.username }}</a> le {{ discussion.date|date('d/m/Y') }} à {{ discussion.date|date('h:m') }}</p></o><p>{{ discussion.content }}</p></td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        Il n'y a aucune discussion
-                    {% endif %}
+                        {% if themes != [] %}
+                            {% for theme in themes %}
+                                <tr>
+                                    <td><a href="{{ path('theme', {'id': theme.id, 'page': 1 }) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
+                                    <td>
+                                        {% if theme.lastdate != null %}
+                                            {{ theme.lastdate|date('d/m/Y à H:i') }}
+                                        {% else %}
+                                            Jamais
+                                        {% endif %}
+                                        {% if theme.lastusername != null %}
+                                            {{ theme.lastusername }}
+                                        {% endif %}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            Il n'y a aucun thème
+                        {% endif %}
                     </tbody>
                 </table>
                 {{ paginationvar }}
             </div>
         </div>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div class="row">
-                <div class="col">
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-                    <button id="close" class="btn btn-dark">Fermer</button>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        {% endif %}
     </div>
 {% endblock %}

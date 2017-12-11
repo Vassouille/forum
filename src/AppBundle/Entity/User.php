@@ -1,5 +1,4 @@
 <?php
-// src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
 
@@ -42,11 +41,10 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        // your own logic
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getAge()
     {
@@ -54,7 +52,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param int $age
+     * @param mixed $age
      */
     public function setAge($age)
     {
@@ -62,7 +60,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCity()
     {
@@ -70,7 +68,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $city
+     * @param mixed $city
      */
     public function setCity($city)
     {
@@ -78,7 +76,15 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
      */
     public function getForename()
     {
@@ -86,7 +92,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $forename
+     * @param mixed $forename
      */
     public function setForename($forename)
     {
@@ -94,7 +100,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getName()
     {
@@ -102,7 +108,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $name
+     * @param mixed $name
      */
     public function setName($name)
     {

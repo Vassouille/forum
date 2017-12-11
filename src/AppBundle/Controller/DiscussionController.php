@@ -6,81 +6,16 @@ use AppBundle\Entity\Discussion;
 use AppBundle\Entity\Theme;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class DiscussionController extends Controller
 {
-    /**
-     * @Route("/theme/{id}", name="theme")
-     */
-    public function themeAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-
-        $discussions = $em->getRepository(Discussion::class)->findBy(array('themeid' => $id), array('id' => 'desc'), 10);
-        $theme = $em->getRepository(Theme::class)->findOneBy(array('id' => $id));
-        $count = $em->getRepository(Discussion::class)->countDiscussion($id);
-        $max = (int)ceil($count[0][1]/10);
-        $pagination = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if ($i <= $max) {
-                array_push($pagination, $i);
-            }
-        }
-
-        if ($user) {
-            $discussion = new Discussion();
-            $discussion->setDate(new \DateTime());
-            $discussion->setThemeId($id);
-            $discussion->setAuthorId($this->getUser()->getId());
-            $discussion->setUsername($this->getUser()->getUsername());
-
-            $form = $this->createFormBuilder($discussion)
-                ->add('content', TextareaType::class, array('label' => 'discussion.content'))
-                ->getForm();
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $discussion = $form->getData();
-                $em->persist($discussion);
-                $em->flush();
-
-                $last = $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'));
-
-                $em->getRepository(Discussion::class)->updateTheme(
-                    $id,
-                    $user->getUsername(),
-                    $last->getDate()
-                );
-
-                return $this->redirectToRoute('theme', array('id' => $id));
-            }
-
-            return $this->render('theme.html.twig', array(
-                'form' => $form->createView(),
-                'discussions' => $discussions,
-                'active' => 1,
-                'pagination' => $pagination,
-                'max' => $max,
-                'theme' => $theme
-            ));
-
-        } else {
-            return $this->render('theme.html.twig', array(
-                'discussions' => $discussions,
-                'active' => 1,
-                'pagination' => $pagination,
-                'max' => $max,
-                'theme' => $theme
-            ));
-        }
-    }
 
     /**
-     * @Route("/theme/{id}/{page}", name="theme_list")
+     * @Route("/discussion/{id}/{page}", name="theme")
      */
     public function themeListAction(Request $request, $id, $page)
     {
@@ -124,10 +59,10 @@ class DiscussionController extends Controller
                     $last->getDate()
                 );
 
-                return $this->redirectToRoute('theme', array('id' => $id));
+                return $this->redirectToRoute('theme', array('id' => $id, 'page' => 1));
             }
 
-            return $this->render('theme.html.twig', array(
+            return $this->render('discussion.html.twig', array(
                 'form' => $form->createView(),
                 'discussions' => $discussions,
                 'active' => $page,
@@ -137,7 +72,7 @@ class DiscussionController extends Controller
             ));
 
         } else {
-            return $this->render('theme.html.twig', array(
+            return $this->render('discussion.html.twig', array(
                 'discussions' => $discussions,
                 'active' => $page,
                 'pagination' => $pagination,
@@ -145,5 +80,47 @@ class DiscussionController extends Controller
                 'theme' => $theme
             ));
         }
+    }
+
+    /**
+     * @Route("/delete/discussion", name="delete_discussion")
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function deleteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isXmlHttpRequest()) {
+
+            $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
+            $em->remove($d);
+            $em->flush();
+
+            return new JsonResponse(array('data' => $d));
+        }
+
+        return new Response('404');
+    }
+
+    /**
+     * @Route("/edit/discussion}", name="edit_discussion")
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function editAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isXmlHttpRequest()) {
+
+            $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
+            $d->setContent($request->request->get('content'));
+            $em->flush();
+
+            return new JsonResponse(array('data' => $d));
+        }
+
+        return new Response('404');
     }
 }

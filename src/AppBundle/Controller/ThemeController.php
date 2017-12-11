@@ -18,6 +18,9 @@ class ThemeController extends Controller
         $theme = new Theme();
         $em = $this->getDoctrine()->getManager();
 
+        /*if($this->get('security.con')->isGranted('ROLE_ADMIN')) {
+
+        }*/
         $form = $this->createFormBuilder($theme)
             ->add('name', TextType::class, array('label' => 'theme.name'))
             ->add('description', TextType::class, array('label' => 'theme.description'))
@@ -44,7 +47,7 @@ class ThemeController extends Controller
             }
         }
 
-        return $this->render('list.html.twig', array(
+        return $this->render('theme.html.twig', array(
             'form' => $form->createView(),
             'themes' => $themes,
             'active' => 1,
@@ -54,7 +57,7 @@ class ThemeController extends Controller
     }
 
     /**
-     * @Route("/list/{page}", name="list")
+     * @Route("/theme/{page}", name="list")
      */
     public function listAction(Request $request, $page)
     {
@@ -87,7 +90,7 @@ class ThemeController extends Controller
             }
         }
 
-        return $this->render('list.html.twig', array(
+        return $this->render('theme.html.twig', array(
             'form' => $form->createView(),
             'themes' => $themes,
             'active' => $page,
