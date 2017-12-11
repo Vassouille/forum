@@ -58,12 +58,8 @@
                                 <td><p>Par <a href="#">{{ discussion.username }}</a> le {{ discussion.date|date('d/m/Y') }} à {{ discussion.date|date('h:m') }}</p><p class="discussion-content">{{ discussion.content }}</p></td>
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <td class="text-right">
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#supprimerModal" data-id="{{ discussion.id }}" data-path="{{ path('delete_discussion') }}">
-                                            Supprimer
-                                        </a><br>
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#editModal" data-id="{{ discussion.id }}" data-path="{{ path('edit_discussion') }}">
-                                            Editer
-                                        </a>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#supprimerModal" data-id="{{ discussion.id }}" data-path="{{ path('delete_discussion') }}">Supprimer</a><br>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#editModal" data-id="{{ discussion.id }}" data-path="{{ path('edit_discussion') }}">Editer</a>
                                     </td>
                                 {% endif %}
                             </tr>
@@ -117,6 +113,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="news"></div>
                             <div class="form-group">
                                 <label for="textarea"></label>
                                 <textarea id="textarea" class="form-control"></textarea>

@@ -17,7 +17,7 @@ class DiscussionController extends Controller
     /**
      * @Route("/discussion/{id}/{page}", name="theme")
      */
-    public function themeListAction(Request $request, $id, $page)
+    public function listAction(Request $request, $id, $page)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -33,7 +33,7 @@ class DiscussionController extends Controller
             }
         }
 
-        if ($user) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $discussion = new Discussion();
             $discussion->setDate(new \DateTime());
             $discussion->setThemeId($id);
@@ -89,18 +89,25 @@ class DiscussionController extends Controller
      */
     public function deleteAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
 
-        if ($request->isXmlHttpRequest()) {
+            if ($request->isXmlHttpRequest()) {
 
-            $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
-            $em->remove($d);
-            $em->flush();
+                $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
+                $em->remove($d);
+                $em->flush();
 
-            return new JsonResponse(array('data' => $d));
+                return new JsonResponse(['validation' => true]);
+            }
+
+            return new JsonResponse(['validation' => false]);
+
+        } else {
+
+            return new JsonResponse(['validation' => false]);
         }
 
-        return new Response('404');
     }
 
     /**
@@ -110,17 +117,23 @@ class DiscussionController extends Controller
      */
     public function editAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $em = $this->getDoctrine()->getManager();
 
-        if ($request->isXmlHttpRequest()) {
+            if ($request->isXmlHttpRequest()) {
 
-            $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
-            $d->setContent($request->request->get('content'));
-            $em->flush();
+                $d = $em->getRepository(Discussion::class)->findOneBy(array('id' => $request->request->get('id')));
+                $d->setContent($request->request->get('content'));
+                $em->flush();
 
-            return new JsonResponse(array('data' => $d));
+                return new JsonResponse(['validation' => true]);
+            }
+
+            return new JsonResponse(['validation' => false]);
+
+        } else {
+
+            return new JsonResponse(['validation' => false]);
         }
-
-        return new Response('404');
     }
 }
