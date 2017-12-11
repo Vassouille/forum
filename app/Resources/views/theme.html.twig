@@ -81,7 +81,7 @@
                             {% for theme in themes %}
                                 <tr>
                                     <td><a href="{{ path('theme', {'id': theme.id, 'page': 1 }) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
-                                    <td>
+                                    <td class="text-right">
                                         {% if theme.lastdate != null %}
                                             {{ theme.lastdate|date('d/m/Y à H:i') }}
                                         {% else %}
@@ -91,7 +91,6 @@
                                             {{ theme.lastusername }}
                                         {% endif %}
                                     </td>
-                                    <td></td>
                                 </tr>
                             {% endfor %}
                         {% else %}

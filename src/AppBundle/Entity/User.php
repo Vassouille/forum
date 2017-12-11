@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -37,6 +38,11 @@ class User extends BaseUser
      * @ORM\Column(type="string")
      */
     protected $city;
+
+    /**
+     * @ORM\Column(name="last_activity_at", type="datetime", nullable=true)
+     */
+    protected $lastActivityAt;
 
     public function __construct()
     {
@@ -113,5 +119,30 @@ class User extends BaseUser
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastActivityAt()
+    {
+        return $this->lastActivityAt;
+    }
+
+    /**
+     * @param mixed $lastActivityAt
+     */
+    public function setLastActivityAt($lastActivityAt)
+    {
+        $this->lastActivityAt = $lastActivityAt;
+    }
+
+    /**
+     * @return Bool
+     */
+    public function isActiveNow()
+    {
+        $delay = new \DateTime('3 seconds ago');
+        return ( $this->getLastActivityAt() > $delay );
     }
 }

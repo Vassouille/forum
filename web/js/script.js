@@ -11,12 +11,14 @@ $( document ).ready(function () {
                 url: $(selector).attr('data-path'),
                 data: {id: $(selector).attr('data-id')}
             }).done(function (data) {
-                console.log(data);
-                $(selector).closest('tr').remove();
-                $('#supprimerModal').modal('hide');
+                if (data.validation) {
+                    $(selector).closest('tr').remove();
+                    $('#supprimerModal').modal('hide');
+                } else {
+                    $('.news').html('<div class="alert alert-danger" role="alert">Une erreur est survenue</div>');
+                }
             })
         });
-
     });
 
     $('[data-target="#editModal"]').click(function () {
@@ -28,11 +30,45 @@ $( document ).ready(function () {
                 url: $(selector).attr('data-path'),
                 data: {id: $(selector).attr('data-id'), content: $('#editModal textarea').val()}
             }).done(function (data) {
-                console.log(data);
-                $(selector).closest('td').prev().find('.discussion-content').html($('#editModal textarea').val());
-                $('#editModal').modal('hide');
+                if (data.validation) {
+                    $(selector).closest('td').prev().find('.discussion-content').html($('#editModal textarea').val());
+                    $('#editModal').modal('hide');
+                } else {
+                    $('.news').html('<div class="alert alert-danger" role="alert">Une erreur est survenue</div>');
+                }
             })
         });
+    });
 
+    var erreur = 0;
+    $('#_submit').click(function(e) {
+        e.preventDefault();
+        $('.news').hide();
+        $('.form').hide();
+        $('.progress').show();
+        $.ajax({
+            type: $('form#login').attr('method'),
+            url: $('form#login').attr('action'),
+            data: $('form#login').serialize()
+        }).done(function(data, status, object) {
+            if (data.success) {
+                window.location.reload();
+            } else {
+                erreur++;
+                if (erreur === 3) {
+                    setTimeout(function () {
+                        $('.news').show();
+                        $('.form').show();
+                        $('.progress').hide();
+                        $('#login .news').html('<div class="alert alert-danger" role="alert">Mauvais identifiants</div>')
+                    }, 5000);
+                } else {
+                    $('.news').show();
+                    $('.form').show();
+                    $('.progress').hide();
+                    $('#login .news').html('<div class="alert alert-danger" role="alert">Mauvais identifiants</div>')
+                }
+            }
+        });
     });
 });
