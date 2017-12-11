@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col">
                 {% set paginationvar %}
-                {% if pagination != [] %}
+                    {% if pagination != [] %}
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item {% if active == 1 %}disabled{% endif %}">
@@ -74,6 +74,7 @@
                         </nav>
                     {% endif %}
                 {% endset %}
+                {{ paginationvar }}
                 <table class="table">
                     <tbody>
                         {% if themes != [] %}
