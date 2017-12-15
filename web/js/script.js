@@ -71,4 +71,22 @@ $( document ).ready(function () {
             }
         });
     });
+
+    imConnected();
 });
+
+function imConnected() {
+    setTimeout(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/imconnected'
+        }).done(function (data) {
+            if (data.users > 1) {
+                $('#connecteduser').html(data.users + ' utilisateurs connectés');
+            } else {
+                $('#connecteduser').html(data.users + ' utilisateur connecté');
+            }
+            imConnected();
+        });
+    }, 25000)
+}
