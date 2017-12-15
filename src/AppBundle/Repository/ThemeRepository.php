@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Discussion;
+
 class ThemeRepository extends \Doctrine\ORM\EntityRepository
 {
     function countTheme() {
@@ -10,6 +12,7 @@ class ThemeRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
     function getList($page) {
         return $this->createQueryBuilder('t')
             ->setFirstResult($page*5-5)
@@ -18,4 +21,15 @@ class ThemeRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+	function getLast($theme) {
+		return $this->createQueryBuilder('t')
+            ->from(Discussion::class, 'd')
+            ->where('d.themeid = :themeid')
+            ->setParameter('themeid', $theme)
+            ->setMaxResults(1)
+            ->orderBy('d.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+	}
 }
