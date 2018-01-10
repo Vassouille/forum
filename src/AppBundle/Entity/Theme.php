@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Theme
@@ -30,14 +31,13 @@ class Theme
     private $description;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\OneToMany(targetEntity="Discussion", mappedBy="theme")
      */
-    private $lastusername;
+    private $discussions;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastdate;
+    public function __construct() {
+        $this->discussions = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -80,35 +80,36 @@ class Theme
     }
 
     /**
-     * @return mixed
+     * Add discussion
+     *
+     * @param \AppBundle\Entity\Discussion $discussion
+     *
+     * @return Theme
      */
-    public function getLastusername()
+    public function addDiscussion(\AppBundle\Entity\Discussion $discussion)
     {
-        return $this->lastusername;
+        $this->discussions[] = $discussion;
+
+        return $this;
     }
 
     /**
-     * @param mixed $lastusername
+     * Remove discussion
+     *
+     * @param \AppBundle\Entity\Discussion $discussion
      */
-    public function setLastusername($lastusername)
+    public function removeDiscussion(\AppBundle\Entity\Discussion $discussion)
     {
-        $this->lastusername = $lastusername;
+        $this->discussions->removeElement($discussion);
     }
 
     /**
-     * @return mixed
+     * Get discussions
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLastdate()
+    public function getDiscussions()
     {
-        return $this->lastdate;
-    }
-
-    /**
-     * @param mixed $lastdate
-     */
-    public function setLastdate($lastdate)
-    {
-        $this->lastdate = $lastdate;
+        return $this->discussions;
     }
 }
-

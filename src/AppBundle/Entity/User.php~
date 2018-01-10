@@ -1,5 +1,4 @@
 <?php
-// src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
 
@@ -9,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -39,14 +39,18 @@ class User extends BaseUser
      */
     protected $city;
 
+    /**
+     * @ORM\Column(name="last_activity_at", type="datetime", nullable=true)
+     */
+    protected $lastActivityAt;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getAge()
     {
@@ -54,7 +58,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param int $age
+     * @param mixed $age
      */
     public function setAge($age)
     {
@@ -62,7 +66,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getCity()
     {
@@ -70,7 +74,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $city
+     * @param mixed $city
      */
     public function setCity($city)
     {
@@ -78,7 +82,15 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
      */
     public function getForename()
     {
@@ -86,7 +98,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $forename
+     * @param mixed $forename
      */
     public function setForename($forename)
     {
@@ -94,7 +106,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getName()
     {
@@ -102,10 +114,35 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $name
+     * @param mixed $name
      */
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastActivityAt()
+    {
+        return $this->lastActivityAt;
+    }
+
+    /**
+     * @param mixed $lastActivityAt
+     */
+    public function setLastActivityAt($lastActivityAt)
+    {
+        $this->lastActivityAt = $lastActivityAt;
+    }
+
+    /**
+     * @return Bool
+     */
+    public function isActiveNow()
+    {
+        $delay = new \DateTime('3 seconds ago');
+        return ( $this->getLastActivityAt() > $delay );
     }
 }

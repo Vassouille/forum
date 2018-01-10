@@ -32,6 +32,11 @@ class Discussion
     private $username;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $themeid;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -71,6 +76,22 @@ class Discussion
     public function setAuthorId($authorid)
     {
         $this->authorid = $authorid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThemeId()
+    {
+        return $this->themeid;
+    }
+
+    /**
+     * @param mixed $theme_id
+     */
+    public function setThemeId($themeid)
+    {
+        $this->themeid = $themeid;
     }
 
     /**
@@ -120,28 +141,5 @@ class Discussion
     {
         $this->username = $username;
     }
-
-    /**
-     * Set theme
-     *
-     * @param \AppBundle\Entity\Theme $theme
-     *
-     * @return Discussion
-     */
-    public function setTheme(\AppBundle\Entity\Theme $theme = null)
-    {
-        $this->theme = $theme;
-
-        return $this;
-    }
-
-    /**
-     * Get theme
-     *
-     * @return \AppBundle\Entity\Theme
-     */
-    public function getTheme()
-    {
-        return $this->theme;
-    }
 }
+

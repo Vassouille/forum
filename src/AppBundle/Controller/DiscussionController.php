@@ -36,7 +36,7 @@ class DiscussionController extends Controller
         if ($this->isGranted('ROLE_ADMIN')) {
             $discussion = new Discussion();
             $discussion->setDate(new \DateTime());
-            $discussion->setThemeId($id);
+            $discussion->setTheme($theme);
             $discussion->setAuthorId($this->getUser()->getId());
             $discussion->setUsername($this->getUser()->getUsername());
 
@@ -50,14 +50,6 @@ class DiscussionController extends Controller
                 $discussion = $form->getData();
                 $em->persist($discussion);
                 $em->flush();
-
-                $last = $em->getRepository(Discussion::class)->findOneBy(array(), array('date' => 'DESC'));
-
-                $em->getRepository(Discussion::class)->updateTheme(
-                    $id,
-                    $user->getUsername(),
-                    $last->getDate()
-                );
 
                 return $this->redirectToRoute('theme', array('id' => $id, 'page' => 1));
             }

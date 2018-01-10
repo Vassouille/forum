@@ -13,7 +13,7 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
 {
     function countDiscussion($id) {
         return $this->createQueryBuilder('d')
-            ->where("d.themeid = $id")
+            ->where("d.theme = $id")
             ->select('COUNT(d.id)')
             ->getQuery()
             ->getResult();
@@ -21,23 +21,11 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
 
     function getList($id, $page) {
         return $this->createQueryBuilder('d')
-            ->where("d.themeid = $id")
+            ->where("d.theme = $id")
             ->setFirstResult($page*10-10)
             ->setMaxResults(10)
             ->orderBy('d.id', 'DESC')
             ->getQuery()
             ->getResult();
-    }
-
-    function updateTheme($id, $lastusername, $lastdate) {
-        $this->getEntityManager()->createQueryBuilder()->update(Theme::class, 't')
-            ->where('t.id = :id')
-            ->setParameter('id', $id)
-            ->set('t.lastusername', ':lu')
-            ->set('t.lastdate', ':ld')
-            ->setParameter('lu', $lastusername)
-            ->setParameter('ld', $lastdate)
-            ->getQuery()
-            ->execute();
     }
 }
