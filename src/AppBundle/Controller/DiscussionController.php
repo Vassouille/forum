@@ -60,7 +60,6 @@ class DiscussionController extends Controller
                 'active' => $page,
                 'pagination' => $pagination,
                 'max' => $max,
-                'theme' => $theme
             ));
 
         } else {
@@ -69,7 +68,6 @@ class DiscussionController extends Controller
                 'active' => $page,
                 'pagination' => $pagination,
                 'max' => $max,
-                'theme' => $theme
             ));
         }
     }
