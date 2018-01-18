@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Theme;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,9 +19,6 @@ class ThemeController extends Controller
         $theme = new Theme();
         $em = $this->getDoctrine()->getManager();
 
-        /*if($this->get('security.con')->isGranted('ROLE_ADMIN')) {
-
-        }*/
         $form = $this->createFormBuilder($theme)
             ->add('name', TextType::class, array('label' => 'theme.name'))
             ->add('description', TextType::class, array('label' => 'theme.description'))
@@ -39,6 +37,18 @@ class ThemeController extends Controller
         $themes = $em->getRepository(Theme::class)->findBy(array(), array('id' => 'desc'), 5);
         $count = $em->getRepository(Theme::class)->countTheme();
 
+        $authorinfo = [];
+        $i = 0;
+        foreach ($themes as $theme) {
+            $discussions = $theme->getDiscussions();
+            foreach ($discussions as $discussion) {
+                $author = $em->getRepository(User::class)->find(array('id' => $discussion->getAuthorId()));
+                $authorinfo[$i]['n'] = $author->getUsername();
+                $authorinfo[$i]['d'] = $discussion->getDate();
+            }
+            $i++;
+        }
+
         $max = (int)ceil($count[0][1]/5);
         $pagination = [];
         for ($i = 1; $i <= 4; $i++) {
@@ -52,7 +62,8 @@ class ThemeController extends Controller
             'themes' => $themes,
             'active' => 1,
             'pagination' => $pagination,
-            'max' => $max
+            'max' => $max,
+            'authorinfo' => $authorinfo
         ));
     }
 
@@ -82,6 +93,18 @@ class ThemeController extends Controller
         $themes = $em->getRepository(Theme::class)->getList($page);
         $count = $em->getRepository(Theme::class)->countTheme();
 
+        $authorinfo = [];
+        $i = 0;
+        foreach ($themes as $theme) {
+            $discussions = $theme->getDiscussions();
+            foreach ($discussions as $discussion) {
+                $author = $em->getRepository(User::class)->find(array('id' => $discussion->getAuthorId()));
+                $authorinfo[$i]['n'] = $author->getUsername();
+                $authorinfo[$i]['d'] = $discussion->getDate();
+            }
+            $i++;
+        }
+
         $max = (int)ceil($count[0][1]/5);
         $pagination = [];
         for ($i = ($page - 3); $i <= ($page + 3); $i++) {
@@ -95,7 +118,8 @@ class ThemeController extends Controller
             'themes' => $themes,
             'active' => $page,
             'pagination' => $pagination,
-            'max' => $max
+            'max' => $max,
+            'authorinfo' => $authorinfo
         ));
     }
 }

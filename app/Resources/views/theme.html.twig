@@ -78,21 +78,24 @@
                 <table class="table">
                     <tbody>
                         {% if themes != [] %}
+                            {% set i = 0 %}
                             {% for theme in themes %}
                                 <tr>
                                     <td><a href="{{ path('theme', {'id': theme.id, 'page': 1 }) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
-                                    <td class="text-left">
-                                        {{ dump(theme) }}
-                                        {#{% if theme.discussions != null %}
-                                            {{ theme.lastdate|date('d/m/Y à H:i') }}
+                                    <td class="text-right">
+                                        {% if theme.discussions != null %}
+                                            {{ authorinfo[i]['n'] }} le
+                                            {{ authorinfo[i]['d']|date('d/m/Y à H:i') }}
+                                            {#{{ theme.lastdate|date('d/m/Y à H:i') }}#}
                                         {% else %}
                                             Jamais
                                         {% endif %}
-                                        {% if theme.lastusername != null %}
+                                        {#{% if theme.lastusername != null %}
                                             {{ theme.lastusername }}
                                         {% endif %}#}
                                     </td>
                                 </tr>
+                                {% set i = i + 1 %}
                             {% endfor %}
                         {% else %}
                             Il n'y a aucun thème

@@ -20,8 +20,6 @@ class DiscussionController extends Controller
     public function listAction(Request $request, $id, $page)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-
         $discussions = $em->getRepository(Discussion::class)->getList($id, $page);
         $theme = $em->getRepository(Theme::class)->findOneBy(array('id' => $id));
         $count = $em->getRepository(Discussion::class)->countDiscussion($id);
@@ -35,7 +33,6 @@ class DiscussionController extends Controller
 
         if ($this->isGranted('ROLE_ADMIN')) {
             $discussion = new Discussion();
-            $discussion->setDate(new \DateTime());
             $discussion->setTheme($theme);
             $discussion->setAuthorId($this->getUser()->getId());
             $discussion->setUsername($this->getUser()->getUsername());
@@ -47,7 +44,8 @@ class DiscussionController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $discussion = $form->getData();
+                $discussion->setContent($form->get('content')->getData());
+                $discussion->setDate(new \DateTime());
                 $em->persist($discussion);
                 $em->flush();
 
@@ -60,14 +58,15 @@ class DiscussionController extends Controller
                 'active' => $page,
                 'pagination' => $pagination,
                 'max' => $max,
+                'theme' => $theme
             ));
-
         } else {
             return $this->render('discussion.html.twig', array(
                 'discussions' => $discussions,
                 'active' => $page,
                 'pagination' => $pagination,
                 'max' => $max,
+                'theme' => $theme
             ));
         }
     }
