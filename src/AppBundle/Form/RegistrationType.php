@@ -15,7 +15,7 @@ class RegistrationType extends AbstractType
             ->add('forename', null, array('label' => 'form.forename'))
             ->add('name', null, array('label' => 'form.name'))
             ->add('age', null, array('label' => 'form.age'))
-            ->add('city', null, array('label' => 'form.city'))
+            ->add('city', null, array('label' => 'form.city', 'attr' => ['class' => 'typeahead']))
             ->add('captcha', CaptchaType::class)
         ;
     }
