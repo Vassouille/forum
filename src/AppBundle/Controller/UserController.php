@@ -20,6 +20,15 @@ class UserController extends Controller
         ));
     }
 
+    public function listUser()
+    {
+        $users = $this->getDoctrine()->getManager()->getRepository(User::class)->findAll();
+
+        return $this->render('listusers.html.twig', array(
+            'users' => $users
+        ));
+    }
+
 	/**
 	 * @param Request $request
 	 * @Route("/imconnected")

@@ -31,7 +31,7 @@ class DiscussionController extends Controller
             }
         }
 
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->getUser()) {
             $discussion = new Discussion();
             $discussion->setTheme($theme);
             $discussion->setAuthorId($this->getUser()->getId());

@@ -24,7 +24,7 @@ class DiscussionRepository extends \Doctrine\ORM\EntityRepository
             ->where("d.theme = $id")
             ->setFirstResult($page*10-10)
             ->setMaxResults(10)
-            ->orderBy('d.id', 'DESC')
+            ->orderBy('d.id', 'ASC')
             ->getQuery()
             ->getResult();
     }

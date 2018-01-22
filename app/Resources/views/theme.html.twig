@@ -83,16 +83,23 @@
                                 <tr>
                                     <td><a href="{{ path('theme', {'id': theme.id, 'page': 1 }) }}">{{ theme.name }}</a><br>{{ theme.description }}</td>
                                     <td class="text-right">
-                                        {% if authorinfo|length > 0 %}
+                                        {% if authorinfo[i]['number'] > 0 %}
+                                            {% if authorinfo[i]['number'] == 1 %}
+                                                {{ authorinfo[i]['number'] }} discussion
+                                            {% elseif authorinfo[i]['number'] > 1 %}
+                                                {{ authorinfo[i]['number'] }} discussions
+                                            {% endif %}
+                                        {% else %}
+                                            0 discussion
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-right">
+                                        {% if authorinfo[i]['number'] > 0 %}
                                             Dernière discussion par <a href="#">{{ authorinfo[i]['n'] }}</a> le
                                             {{ authorinfo[i]['d']|date('d/m/Y à H:i') }}
-                                            {#{{ theme.lastdate|date('d/m/Y à H:i') }}#}
                                         {% else %}
                                             Jamais
                                         {% endif %}
-                                        {#{% if theme.lastusername != null %}
-                                            {{ theme.lastusername }}
-                                        {% endif %}#}
                                     </td>
                                 </tr>
                                 {% set i = i + 1 %}

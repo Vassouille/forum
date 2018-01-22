@@ -41,6 +41,7 @@ class ThemeController extends Controller
         $i = 0;
         foreach ($themes as $theme) {
             $discussions = $theme->getDiscussions();
+            $authorinfo[$i]['number'] = count($discussions);
             foreach ($discussions as $discussion) {
                 $author = $em->getRepository(User::class)->find(array('id' => $discussion->getAuthorId()));
                 $authorinfo[$i]['n'] = $author->getUsername();
@@ -97,6 +98,7 @@ class ThemeController extends Controller
         $i = 0;
         foreach ($themes as $theme) {
             $discussions = $theme->getDiscussions();
+            $authorinfo[$i]['number'] = count($discussions);
             foreach ($discussions as $discussion) {
                 $author = $em->getRepository(User::class)->find(array('id' => $discussion->getAuthorId()));
                 $authorinfo[$i]['n'] = $author->getUsername();

@@ -12,10 +12,10 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('forename', null, array('label' => 'form.forename'))
-            ->add('name', null, array('label' => 'form.name'))
-            ->add('age', null, array('label' => 'form.age'))
-            ->add('city', null, array('label' => 'form.city', 'attr' => ['class' => 'typeahead']))
+            ->add('forename', null, array('label' => 'form.forename', 'required' => false))
+            ->add('name', null, array('label' => 'form.name', 'required' => false))
+            ->add('age', null, array('label' => 'form.age', 'required' => false))
+            ->add('city', null, array('label' => 'form.city', 'attr' => ['class' => 'typeahead'], 'required' => false))
             ->add('captcha', CaptchaType::class)
         ;
     }

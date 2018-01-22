@@ -4,7 +4,7 @@
     <div class="col col-3">
         <div class="profil-nom">{{ user.forename }} {{ user.name }}</div>
         <div class="profil-pseudo"><p>{{ user.username }}</p></div>
-        <p>{{ user.email }}</p>
+        <p>{{ user.email }}<br>{{ user.city }}</p>
     </div>
     <div class="col col-9">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
