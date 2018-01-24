@@ -27,9 +27,11 @@ class ThemeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $theme = $form->getData();
-            $em->persist($theme);
-            $em->flush();
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $theme = $form->getData();
+                $em->persist($theme);
+                $em->flush();
+            }
 
             return $this->redirectToRoute('home');
         }
@@ -84,9 +86,11 @@ class ThemeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $theme = $form->getData();
-            $em->persist($theme);
-            $em->flush();
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $theme = $form->getData();
+                $em->persist($theme);
+                $em->flush();
+            }
 
             return $this->redirectToRoute('home');
         }
